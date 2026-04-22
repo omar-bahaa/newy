@@ -1,13 +1,12 @@
 from datetime import UTC, datetime, timedelta
 import json
-import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
 from newy.config import AppConfig, CodexConfig
 from newy.models import Article, DigestRequest
-from newy.ranking import RankedCluster
+from newy.ranking import RankedCluster, cluster_articles, rank_clusters
 from newy.summarizer import CodexLocalProvider, DigestEngine, ExtractiveProvider
 
 
@@ -50,6 +49,46 @@ class DigestTests(unittest.TestCase):
         self.assertTrue(digest.bullets)
         self.assertIn("Diplomatic standoff", digest.bullets[0].text)
         self.assertIn("https://example.com/relevant", digest.citations)
+
+    def test_coarse_ranking_keeps_query_as_hint_not_dominant_judgment(self) -> None:
+        request = DigestRequest(kind="topic", language="english", topic="Iran ceasefire")
+        clusters = cluster_articles(
+            [
+                _article("trusted-a", "Iran truce monitored", "Summary", "Iran ceasefire monitored by regional observers.", 1),
+                _article("trusted-b", "Markets react globally", "Summary", "Global markets reacted to oil uncertainty after the truce.", 1),
+            ]
+        )
+        ranked = rank_clusters(clusters, {"trusted-a": 5, "trusted-b": 5}, request)
+        self.assertEqual(len(ranked), 2)
+        self.assertGreaterEqual(ranked[0].score, ranked[1].score)
+        self.assertTrue(all(item.query_score >= 0 for item in ranked))
+
+    def test_codex_prompt_explicitly_assigns_final_ranking_to_agent(self) -> None:
+        config = AppConfig(codex=CodexConfig(enabled=True, command="codex", working_directory="."))
+        provider = CodexLocalProvider(config)
+        request = DigestRequest(kind="topic", language="bilingual", topic="US Iran conflict")
+        clusters = [
+            RankedCluster(
+                cluster_id="cluster-1",
+                score=8.2,
+                query_score=4.1,
+                articles=[
+                    _article(
+                        "source-a",
+                        "Conflict escalates",
+                        "A summary",
+                        "Detailed body",
+                        1,
+                        url="https://example.com/a",
+                    )
+                ],
+            )
+        ]
+        prompt = provider._build_prompt(request, clusters)
+        self.assertIn("final editorial ranker and digest judge", prompt)
+        self.assertIn("coarse_rank", prompt)
+        self.assertIn("coarse_score", prompt)
+        self.assertIn("Treat coarse_rank and coarse_score as shortlist hints only", prompt)
 
     def test_codex_provider_parses_json_output(self) -> None:
         config = AppConfig(codex=CodexConfig(enabled=True, command="codex", working_directory="."))

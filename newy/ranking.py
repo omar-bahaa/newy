@@ -112,7 +112,14 @@ def rank_clusters(
     request: DigestRequest,
     now: datetime | None = None,
 ) -> list[RankedCluster]:
+    """Coarse shortlist ranking only.
+
+    This stage should narrow noisy raw articles into a sensible shortlist.
+    It should not try to make the final editorial judgment; the summarizer
+    agent is responsible for final ranking/selection among these clusters.
+    """
     current = now or datetime.now(UTC)
+    query = request.topic or " ".join(request.user_topics)
     ranked: list[RankedCluster] = []
     for index, cluster in enumerate(clusters, start=1):
         source_count = len({article.source_slug for article in cluster})
@@ -121,11 +128,17 @@ def rank_clusters(
         freshness = max(0.0, 3.5 - min(oldest_hours, 48) / 16)
         corroboration = min(source_count, 4) * 0.9
         region_bonus = 0.0
-        if request.regions:
-            if any(set(request.regions) & set(article.region_tags) for article in cluster):
-                region_bonus = 1.2
-        query_score = _query_similarity(request.topic or " ".join(request.user_topics), cluster)
+        if request.regions and any(set(request.regions) & set(article.region_tags) for article in cluster):
+            region_bonus = 1.2
+        query_score = _query_similarity(query, cluster)
         density = math.log(len(cluster) + 1, 2)
-        score = max_trust * 1.4 + freshness + corroboration + region_bonus + query_score + density
-        ranked.append(RankedCluster(cluster_id=f"cluster-{index}", articles=cluster, score=score, query_score=query_score))
+        coarse_score = max_trust * 1.5 + freshness + corroboration + region_bonus + density + min(query_score, 1.5)
+        ranked.append(
+            RankedCluster(
+                cluster_id=f"cluster-{index}",
+                articles=cluster,
+                score=coarse_score,
+                query_score=query_score,
+            )
+        )
     return sorted(ranked, key=lambda item: item.score, reverse=True)

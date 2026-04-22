@@ -23,6 +23,17 @@ class Store:
         self.conn.row_factory = sqlite3.Row
         self.ensure_schema()
 
+
+    def close(self) -> None:
+        with self._lock:
+            self.conn.close()
+
+    def __del__(self) -> None:
+        try:
+            self.close()
+        except Exception:
+            pass
+
     def _execute(self, sql: str, params: tuple[Any, ...] = ()) -> sqlite3.Cursor:
         with self._lock:
             return self.conn.execute(sql, params)

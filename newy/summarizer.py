@@ -73,7 +73,7 @@ class DigestEngine:
             if regional:
                 filtered = regional
         ranked = rank_clusters(cluster_articles(filtered), source_trust, request)
-        cluster_limit = max(request.max_items, self.config.max_clusters_for_llm)
+        cluster_limit = max(request.max_items * 2, self.config.max_clusters_for_llm)
         return EvidenceBundle(clusters=ranked[:cluster_limit], total_articles=len(filtered))
 
     def _verify_digest(self, digest: Digest, evidence: EvidenceBundle, request: DigestRequest) -> Digest:
@@ -92,9 +92,7 @@ class DigestEngine:
                 else:
                     text = " ".join(str(item.get("text", "")).split())
                     citations = [url for url in item.get("citations", []) if url in valid_urls]
-                if not text:
-                    continue
-                if not citations:
+                if not text or not citations:
                     continue
                 clean_bullets.append({"text": text, "citations": citations[:3]})
                 aggregate_citations.extend(citations[:3])
@@ -234,12 +232,13 @@ class CodexLocalProvider:
 
     def _build_prompt(self, request: DigestRequest, clusters: list[RankedCluster]) -> str:
         evidence = []
-        for cluster in clusters:
+        for coarse_rank, cluster in enumerate(clusters, start=1):
             evidence.append(
                 {
                     "cluster_id": cluster.cluster_id,
-                    "score": round(cluster.score, 3),
-                    "query_score": round(cluster.query_score, 3),
+                    "coarse_rank": coarse_rank,
+                    "coarse_score": round(cluster.score, 3),
+                    "query_hint": round(cluster.query_score, 3),
                     "articles": [
                         {
                             "source": article.source_slug,
@@ -255,13 +254,15 @@ class CodexLocalProvider:
                 }
             )
         instruction = {
-            "task": "Generate a bilingual news digest grounded only in the provided evidence.",
+            "task": "You are the final editorial ranker and digest judge for a news digest.",
             "requirements": [
+                "Treat coarse_rank and coarse_score as shortlist hints only, not final truth.",
+                "You must perform the final ranking and decide which shortlisted clusters deserve inclusion.",
                 "Use only claims directly supported by the evidence.",
                 "Citations must be exact URLs copied from the evidence.",
-                "Prefer clusters with stronger corroboration and recency.",
                 "For topic digests, include only developments meaningfully tied to the topic, even if wording differs from the query.",
-                "Mark uncertain or weakly confirmed developments conservatively.",
+                "Prefer the most important, corroborated, and current developments, not just the highest coarse-ranked cluster.",
+                "It is acceptable to ignore low-value shortlisted clusters.",
                 "Return only JSON matching the provided schema.",
             ],
             "request": {
@@ -270,8 +271,9 @@ class CodexLocalProvider:
                 "language": request.language,
                 "regions": request.regions,
                 "user_topics": request.user_topics,
+                "target_bullets": request.max_items,
             },
-            "evidence": evidence,
+            "shortlist": evidence,
         }
         return json.dumps(instruction, ensure_ascii=False, indent=2)
 
@@ -331,9 +333,9 @@ class OpenAIChatProvider:
                 {
                     "role": "system",
                     "content": (
-                        "You are a citation-grounded news digest agent. Use only supplied evidence. "
-                        "Return JSON with keys en, ar, confidence. Each section must include title, why, bullets[]. "
-                        "Each bullet must include text and citations."
+                        "You are the final editorial ranker and digest judge for a citation-grounded news digest. "
+                        "Use the supplied shortlist as input, perform the final ranking yourself, and return JSON with keys en, ar, confidence. "
+                        "Each section must include title, why, bullets[]. Each bullet must include text and citations."
                     ),
                 },
                 {
@@ -345,12 +347,14 @@ class OpenAIChatProvider:
                                 "topic": request.topic,
                                 "language": request.language,
                                 "regions": request.regions,
+                                "target_bullets": request.max_items,
                             },
-                            "clusters": [
+                            "shortlist": [
                                 {
                                     "cluster_id": cluster.cluster_id,
-                                    "score": cluster.score,
-                                    "query_score": cluster.query_score,
+                                    "coarse_rank": coarse_rank,
+                                    "coarse_score": cluster.score,
+                                    "query_hint": cluster.query_score,
                                     "articles": [
                                         {
                                             "source": article.source_slug,
@@ -363,7 +367,7 @@ class OpenAIChatProvider:
                                         for article in cluster.articles[:4]
                                     ],
                                 }
-                                for cluster in clusters
+                                for coarse_rank, cluster in enumerate(clusters, start=1)
                             ],
                         },
                         ensure_ascii=False,

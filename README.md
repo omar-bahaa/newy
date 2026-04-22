@@ -1,3 +1,16 @@
+<p align="center">
+  <img src="assets/newy-banner.svg" alt="Newy banner" width="100%" />
+</p>
+
+<p align="center">
+  <a href="https://github.com/omar-bahaa/newy"><img src="https://img.shields.io/badge/GitHub-newy-181717?logo=github&logoColor=white" alt="GitHub"></a>
+  <img src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white" alt="Python 3.11+">
+  <img src="https://img.shields.io/badge/Browser-Playwright-2EAD33?logo=playwright&logoColor=white" alt="Playwright">
+  <img src="https://img.shields.io/badge/WhatsApp-Twilio-25D366?logo=whatsapp&logoColor=white" alt="Twilio WhatsApp">
+  <img src="https://img.shields.io/badge/Agent-Codex-412991" alt="Codex-guided">
+  <img src="https://img.shields.io/github/stars/omar-bahaa/newy?style=social" alt="GitHub stars">
+</p>
+
 # Newy
 
 Newy is a local-first news digestion tool that pulls content from trusted sources, uses a browser task agent plus Codex to navigate article pages, generates citation-backed digests, and can deliver them to WhatsApp through Twilio.

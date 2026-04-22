@@ -1,43 +1,19 @@
-<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="1200" height="300" viewBox="0 0 1200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="420" gradientUnits="userSpaceOnUse">
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="300" gradientUnits="userSpaceOnUse">
       <stop stop-color="#0F172A"/>
-      <stop offset="0.5" stop-color="#111827"/>
-      <stop offset="1" stop-color="#0B3B66"/>
+      <stop offset="1" stop-color="#123A63"/>
     </linearGradient>
-    <linearGradient id="accent" x1="140" y1="80" x2="990" y2="320" gradientUnits="userSpaceOnUse">
+    <linearGradient id="accent" x1="100" y1="150" x2="520" y2="190" gradientUnits="userSpaceOnUse">
       <stop stop-color="#38BDF8"/>
-      <stop offset="0.5" stop-color="#22C55E"/>
+      <stop offset="0.55" stop-color="#22C55E"/>
       <stop offset="1" stop-color="#A78BFA"/>
     </linearGradient>
-    <filter id="blur" x="0" y="0" width="1200" height="420" filterUnits="userSpaceOnUse">
-      <feGaussianBlur stdDeviation="40"/>
-    </filter>
   </defs>
 
-  <rect width="1200" height="420" rx="28" fill="url(#bg)"/>
+  <rect width="1200" height="300" rx="24" fill="url(#bg)"/>
+  <rect x="52" y="44" width="1096" height="212" rx="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.10)"/>
 
-  <g filter="url(#blur)" opacity="0.28">
-    <circle cx="980" cy="90" r="120" fill="#38BDF8"/>
-    <circle cx="840" cy="320" r="130" fill="#22C55E"/>
-    <circle cx="180" cy="110" r="100" fill="#A78BFA"/>
-  </g>
-
-  <rect x="76" y="74" width="1048" height="272" rx="24" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)"/>
-
-  <text x="110" y="178" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="94" font-weight="800" fill="white">NEWY</text>
-  <text x="114" y="228" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="28" font-weight="600" fill="url(#accent)">Trusted news digests for WhatsApp</text>
-  <text x="114" y="278" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="24" font-weight="400" fill="#D1D5DB">Browser task agent navigation • Codex-guided summaries • Citation-backed delivery</text>
-
-  <g transform="translate(720 116)">
-    <rect x="0" y="0" width="320" height="74" rx="18" fill="rgba(56,189,248,0.12)" stroke="rgba(56,189,248,0.35)"/>
-    <text x="28" y="30" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="18" font-weight="700" fill="#7DD3FC">INGEST</text>
-    <text x="28" y="56" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="16" font-weight="400" fill="#E5E7EB">RSS, archive pages, newsletter archives</text>
-  </g>
-
-  <g transform="translate(764 206)">
-    <rect x="0" y="0" width="276" height="74" rx="18" fill="rgba(34,197,94,0.12)" stroke="rgba(34,197,94,0.35)"/>
-    <text x="28" y="30" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="18" font-weight="700" fill="#86EFAC">DIGEST</text>
-    <text x="28" y="56" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="16" font-weight="400" fill="#E5E7EB">Codex-guided, grounded, bilingual</text>
-  </g>
+  <text x="96" y="148" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="88" font-weight="800" fill="white">NEWY</text>
+  <text x="100" y="198" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="28" font-weight="600" fill="url(#accent)">Trusted news digests for WhatsApp</text>
 </svg>

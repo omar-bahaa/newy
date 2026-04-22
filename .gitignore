@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtualenvs / local env
+.venv/
+.env
+
+# Build metadata
+*.egg-info/
+
+# Local runtime data
+data/config.local.json
+data/newy.sqlite3
+data/newy.sqlite3-shm
+data/newy.sqlite3-wal
+data/.omx/
+.omx/
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+
+# ngrok / misc local artifacts
+*.log

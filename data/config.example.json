@@ -1,0 +1,61 @@
+{
+  "database_path": "newy.sqlite3",
+  "source_seed_path": "sources.seed.json",
+  "fallback_domains": [
+    "bbc.com",
+    "cnn.com",
+    "nytimes.com",
+    "foxnews.com",
+    "reuters.com",
+    "apnews.com",
+    "aljazeera.com",
+    "youm7.com",
+    "almasryalyoum.com",
+    "khaleejtimes.com",
+    "gulfnews.com",
+    "thenationalnews.com",
+    "wam.ae"
+  ],
+  "admin_host": "127.0.0.1",
+  "admin_port": 8080,
+  "admin_token": "change-me",
+  "public_base_url": "https://your-public-domain.example",
+  "worker_poll_interval_seconds": 30,
+  "user_agent": "newy/0.1",
+  "http_timeout_seconds": 20,
+  "max_article_age_hours": 48,
+  "max_archive_links_per_source": 8,
+  "max_articles_per_digest": 8,
+  "max_clusters_for_llm": 8,
+  "timezone_default": "UTC",
+  "codex": {
+    "enabled": true,
+    "command": "codex",
+    "profile": "",
+    "model": "",
+    "timeout_seconds": 120,
+    "working_directory": "."
+  },
+  "llm": {
+    "base_url": "https://api.openai.com/v1",
+    "api_key_env": "OPENAI_API_KEY",
+    "model": "gpt-4.1-mini",
+    "timeout_seconds": 45
+  },
+  "twilio": {
+    "account_sid_env": "TWILIO_ACCOUNT_SID",
+    "auth_token_env": "TWILIO_AUTH_TOKEN",
+    "from_number": "whatsapp:+14155238886",
+    "dry_run": true,
+    "validate_signature": false
+  },
+  "browser": {
+    "enabled": false,
+    "engine": "chromium",
+    "headless": true,
+    "timeout_seconds": 30,
+    "wait_until": "networkidle"
+  },
+  "max_navigation_actions_per_page": 6,
+  "max_navigation_retries_per_page": 2
+}

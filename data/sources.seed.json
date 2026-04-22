@@ -1,0 +1,189 @@
+[
+  {
+    "slug": "bbc-world",
+    "name": "BBC World",
+    "feed_url": "http://feeds.bbci.co.uk/news/world/rss.xml",
+    "base_url": "https://www.bbc.com",
+    "region": "global",
+    "language": "en",
+    "trust_tier": 5,
+    "source_type": "rss",
+    "poll_interval_minutes": 20
+  },
+  {
+    "slug": "cnn-top",
+    "name": "CNN Top Stories",
+    "feed_url": "http://rss.cnn.com/rss/cnn_topstories.rss",
+    "base_url": "https://www.cnn.com",
+    "region": "us",
+    "language": "en",
+    "trust_tier": 4,
+    "source_type": "rss",
+    "poll_interval_minutes": 20
+  },
+  {
+    "slug": "fox-latest",
+    "name": "Fox News Latest",
+    "feed_url": "https://moxie.foxnews.com/google-publisher/latest.xml",
+    "base_url": "https://www.foxnews.com",
+    "region": "us",
+    "language": "en",
+    "trust_tier": 3,
+    "source_type": "rss",
+    "poll_interval_minutes": 20
+  },
+  {
+    "slug": "nyt-home",
+    "name": "New York Times Home",
+    "feed_url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+    "base_url": "https://www.nytimes.com",
+    "region": "us",
+    "language": "en",
+    "trust_tier": 5,
+    "source_type": "rss",
+    "poll_interval_minutes": 20
+  },
+  {
+    "slug": "reuters-world",
+    "name": "Reuters World",
+    "feed_url": "https://feeds.reuters.com/Reuters/worldNews",
+    "base_url": "https://www.reuters.com",
+    "region": "global",
+    "language": "en",
+    "trust_tier": 5,
+    "source_type": "rss",
+    "poll_interval_minutes": 20
+  },
+  {
+    "slug": "ap-top-news",
+    "name": "AP Top News",
+    "feed_url": "https://apnews.com/hub/ap-top-news?output=rss",
+    "base_url": "https://apnews.com",
+    "region": "global",
+    "language": "en",
+    "trust_tier": 5,
+    "source_type": "rss",
+    "poll_interval_minutes": 20
+  },
+  {
+    "slug": "aljazeera",
+    "name": "Al Jazeera",
+    "feed_url": "https://www.aljazeera.com/xml/rss/all.xml",
+    "base_url": "https://www.aljazeera.com",
+    "region": "middle-east",
+    "language": "en",
+    "trust_tier": 4,
+    "source_type": "rss",
+    "poll_interval_minutes": 20
+  },
+  {
+    "slug": "youm7-home",
+    "name": "Youm7",
+    "feed_url": "https://www.youm7.com/home/index",
+    "base_url": "https://www.youm7.com",
+    "region": "egypt",
+    "language": "ar",
+    "trust_tier": 3,
+    "source_type": "archive_page",
+    "poll_interval_minutes": 30,
+    "metadata": {
+      "exclude_contains": ["/video", "/photo", "/search", "/rss"],
+      "max_links": 8
+    }
+  },
+  {
+    "slug": "almasryalyoum-news",
+    "name": "Al Masry Al Youm",
+    "feed_url": "https://www.almasryalyoum.com/news",
+    "base_url": "https://www.almasryalyoum.com",
+    "region": "egypt",
+    "language": "ar",
+    "trust_tier": 4,
+    "source_type": "archive_page",
+    "poll_interval_minutes": 30,
+    "metadata": {
+      "link_contains": ["details"],
+      "exclude_contains": ["detailsamp", "/opinion", "/gallery"]
+    }
+  },
+  {
+    "slug": "khaleejtimes-home",
+    "name": "Khaleej Times",
+    "feed_url": "https://www.khaleejtimes.com/",
+    "base_url": "https://www.khaleejtimes.com",
+    "region": "uae",
+    "language": "en",
+    "trust_tier": 4,
+    "source_type": "archive_page",
+    "poll_interval_minutes": 30,
+    "metadata": {
+      "exclude_contains": ["/photos", "/videos", "/gold-forex", "/kt-network"]
+    }
+  },
+  {
+    "slug": "gulfnews-uae",
+    "name": "Gulf News UAE",
+    "feed_url": "https://gulfnews.com/uae",
+    "base_url": "https://gulfnews.com",
+    "region": "uae",
+    "language": "en",
+    "trust_tier": 4,
+    "source_type": "archive_page",
+    "poll_interval_minutes": 30,
+    "metadata": {
+      "exclude_contains": ["/photos", "/videos", "/special-reports", "/newsletter"]
+    }
+  },
+  {
+    "slug": "the-national-latest",
+    "name": "The National",
+    "feed_url": "https://www.thenationalnews.com/latest-news/",
+    "base_url": "https://www.thenationalnews.com",
+    "region": "uae",
+    "language": "en",
+    "trust_tier": 4,
+    "source_type": "archive_page",
+    "poll_interval_minutes": 30,
+    "metadata": {
+      "exclude_contains": ["/podcasts/", "/video/", "/picture-gallery/"]
+    }
+  },
+  {
+    "slug": "wam-en",
+    "name": "Emirates News Agency",
+    "feed_url": "https://www.wam.ae/en",
+    "base_url": "https://www.wam.ae",
+    "region": "uae",
+    "language": "en",
+    "trust_tier": 4,
+    "source_type": "archive_page",
+    "poll_interval_minutes": 30,
+    "metadata": {
+      "exclude_contains": ["/videos", "/photos"]
+    }
+  },
+  {
+    "slug": "rt-news",
+    "name": "RT News",
+    "feed_url": "https://www.rt.com/rss/news/",
+    "base_url": "https://www.rt.com",
+    "region": "russia",
+    "language": "en",
+    "trust_tier": 2,
+    "source_type": "rss",
+    "poll_interval_minutes": 30,
+    "fallback_allowed": true
+  },
+  {
+    "slug": "china-daily-world",
+    "name": "China Daily World",
+    "feed_url": "https://www.chinadaily.com.cn/rss/world_rss.xml",
+    "base_url": "https://www.chinadaily.com.cn",
+    "region": "china",
+    "language": "en",
+    "trust_tier": 3,
+    "source_type": "rss",
+    "poll_interval_minutes": 30,
+    "fallback_allowed": true
+  }
+]

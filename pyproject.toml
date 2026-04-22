@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "newy"
+version = "0.1.0"
+description = "Trusted news digest to WhatsApp"
+requires-python = ">=3.11"
+readme = "README.md"
+
+[project.optional-dependencies]
+browser = ["playwright>=1.52"]
+
+[project.scripts]
+newy = "newy.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["newy*"]
